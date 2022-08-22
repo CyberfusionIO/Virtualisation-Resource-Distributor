@@ -1,0 +1,51 @@
+image: python:3.9
+
+stages:
+  - test
+  - build
+  - deploy
+
+styling test:
+  stage: test
+  script:
+    - pip install --no-cache-dir -r requirements/dev.txt
+    # Also need pytest to prevent mypy 'Untyped decorator' errors about pytest decorators
+    - pip install --no-cache-dir -r requirements/test.txt
+    - mypy . --junit-xml report-mypy.xml
+    - flake8 . --tee --output-file flake8.txt; exit_code=$?; flake8_junit flake8.txt report-flake8.xml
+    - if [ $exit_code -ne 0 ]; then exit 1; fi;
+    - isort -c .
+    - black --check .
+  artifacts:
+    reports:
+      junit: report-*.xml
+
+unit test:
+  stage: test
+  script:
+    - pip install --no-cache-dir -r requirements/test.txt
+    - cp $CI_PROJECT_DIR/proxmox-resource-distributor.sqlite3 /tmp/proxmox-resource-distributor.sqlite3
+    - DATABASE_PATH=/tmp/proxmox-resource-distributor.sqlite3 pytest -vvv --cov-branch --cov=proxmox_resource_distributor --cov-config=.coveragerc --cov-fail-under=100 --junitxml=report-pytest.xml
+  artifacts:
+    reports:
+      junit: report-*.xml
+
+build:
+  stage: build
+  script:
+    - apt update
+    - python3 setup.py sdist
+  artifacts:
+    paths:
+      - dist/*
+    expire_in: 1 week
+
+live deploy:
+  stage: deploy
+  only:
+    - master
+  dependencies:
+    - build
+  script:
+    - pip3 install twine
+    - twine upload --non-interactive dist/*
