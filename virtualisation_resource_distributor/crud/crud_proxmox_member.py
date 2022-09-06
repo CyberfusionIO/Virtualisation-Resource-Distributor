@@ -4,11 +4,13 @@ from typing import List
 
 from proxmoxer import ProxmoxAPI
 
-from proxmox_resource_distributor.crud.base_proxmox import CRUDBaseProxmox
-from proxmox_resource_distributor.models import (
+from virtualisation_resource_distributor.crud.base_proxmox import (
+    CRUDBaseProxmox,
+)
+from virtualisation_resource_distributor.models import (
     ProxmoxMember as ProxmoxMemberOrm,
 )
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor.schemas import (
     ProxmoxMember as ProxmoxMemberSchema,
 )
 

@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from sqlalchemy import String, cast, or_
 from sqlalchemy.orm import Session
 
-from proxmox_resource_distributor.database import Base
+from virtualisation_resource_distributor.database import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 SchemaType = TypeVar("SchemaType", bound=BaseModel)

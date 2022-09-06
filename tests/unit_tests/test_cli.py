@@ -5,10 +5,13 @@ import pytest
 from _pytest.capture import CaptureFixture
 from pytest_mock import MockerFixture  # type: ignore[attr-defined]
 
-from proxmox_resource_distributor import CLI
-from proxmox_resource_distributor.crud import database_node, database_zone
-from proxmox_resource_distributor.database import DatabaseSession
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor import CLI
+from virtualisation_resource_distributor.crud import (
+    database_node,
+    database_zone,
+)
+from virtualisation_resource_distributor.database import DatabaseSession
+from virtualisation_resource_distributor.schemas import (
     DatabaseNode,
     DatabaseZone,
     ProxmoxMember,
@@ -30,7 +33,7 @@ def test_cli_run_has_no_members_to_migrate_without_exclude_pools(
     proxmox_pools: List[ProxmoxPool],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(CLI.__doc__, ["run"]),
     )
 
@@ -49,7 +52,7 @@ def test_cli_run_has_members_to_migrate_without_exclude_pools(
     proxmox_members: List[ProxmoxMember],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(CLI.__doc__, ["run"]),
     )
 
@@ -70,12 +73,12 @@ def test_cli_run_has_members_to_migrate_with_exclude_pools(
     proxmox_pools: List[ProxmoxPool],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(CLI.__doc__, ["run"]),
     )
 
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_exclude_pools_names",
+        "virtualisation_resource_distributor.CLI.get_exclude_pools_names",
         return_value=[proxmox_pools[0].name],
     )
 
@@ -97,7 +100,7 @@ def test_cli_nodes_delete(
     database_nodes: List[DatabaseNode],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(
             CLI.__doc__, ["nodes", "delete", "--name", database_nodes[0].name]
         ),
@@ -121,7 +124,7 @@ def test_cli_nodes_list(
     database_nodes: List[DatabaseNode],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(CLI.__doc__, ["nodes", "list"]),
     )
 
@@ -147,7 +150,7 @@ def test_cli_nodes_delete(
     database_nodes: List[DatabaseNode],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(
             CLI.__doc__, ["nodes", "delete", "--name", database_nodes[0].name]
         ),
@@ -169,7 +172,7 @@ def test_cli_nodes_create(
     database_zones: List[DatabaseZone],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(
             CLI.__doc__,
             [
@@ -202,7 +205,7 @@ def test_cli_zones_list(
     database_nodes: List[DatabaseNode],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(CLI.__doc__, ["zones", "list"]),
     )
 
@@ -231,7 +234,7 @@ def test_cli_zones_delete(
     database_zones: List[DatabaseZone],
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(
             CLI.__doc__, ["zones", "delete", "--name", database_zones[0].name]
         ),
@@ -252,7 +255,7 @@ def test_cli_zones_create(
     database_session: DatabaseSession,
 ):
     mocker.patch(
-        "proxmox_resource_distributor.CLI.get_args",
+        "virtualisation_resource_distributor.CLI.get_args",
         return_value=docopt.docopt(
             CLI.__doc__, ["zones", "create", "--name", "BIT-1"]
         ),

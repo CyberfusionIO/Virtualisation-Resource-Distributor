@@ -2,8 +2,11 @@ from typing import List
 
 from proxmoxer import ProxmoxAPI
 
-from proxmox_resource_distributor.crud import proxmox_member
-from proxmox_resource_distributor.schemas import ProxmoxMember, ProxmoxPool
+from virtualisation_resource_distributor.crud import proxmox_member
+from virtualisation_resource_distributor.schemas import (
+    ProxmoxMember,
+    ProxmoxPool,
+)
 
 
 def test_proxmox_member_get_by_pool(

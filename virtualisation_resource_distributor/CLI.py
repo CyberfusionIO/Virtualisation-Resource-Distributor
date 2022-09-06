@@ -1,13 +1,13 @@
-"""Proxmox Resource Distributor.
+"""Virtualisation Resource Distributor.
 
 Usage:
-   proxmox-resource-distributor run
-   proxmox-resource-distributor nodes list
-   proxmox-resource-distributor nodes create --name=<name> --zone-name=<zone-name>
-   proxmox-resource-distributor nodes delete --name=<name>
-   proxmox-resource-distributor zones list
-   proxmox-resource-distributor zones create --name=<name>
-   proxmox-resource-distributor zones delete --name=<name>
+   virtualisation-resource-distributor run
+   virtualisation-resource-distributor nodes list
+   virtualisation-resource-distributor nodes create --name=<name> --zone-name=<zone-name>
+   virtualisation-resource-distributor nodes delete --name=<name>
+   virtualisation-resource-distributor zones list
+   virtualisation-resource-distributor zones create --name=<name>
+   virtualisation-resource-distributor zones delete --name=<name>
 
 Options:
   -h --help     Show this screen.
@@ -18,15 +18,15 @@ import sys
 import docopt
 from schema import Or, Schema
 
-from proxmox_resource_distributor import crud, proxmox
-from proxmox_resource_distributor.config import get_exclude_pools_names
-from proxmox_resource_distributor.database import DatabaseSession
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor import crud, proxmox
+from virtualisation_resource_distributor.config import get_exclude_pools_names
+from virtualisation_resource_distributor.database import DatabaseSession
+from virtualisation_resource_distributor.schemas import (
     DatabaseNodeCreate,
     DatabaseZoneCreate,
 )
 
-"""Program to distribute resources over Proxmox nodes."""
+"""Program to distribute Virtual Machines and Containers over Proxmox zones."""
 
 
 def get_args() -> docopt.Dict:
