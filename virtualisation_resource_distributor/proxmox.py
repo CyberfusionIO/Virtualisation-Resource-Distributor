@@ -4,7 +4,7 @@ import functools
 
 from proxmoxer import ProxmoxAPI
 
-from proxmox_resource_distributor.config import settings
+from virtualisation_resource_distributor.config import settings
 
 API = functools.partial(
     ProxmoxAPI,

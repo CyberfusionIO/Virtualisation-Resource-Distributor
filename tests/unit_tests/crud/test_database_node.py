@@ -1,8 +1,8 @@
 from typing import List
 
-from proxmox_resource_distributor.crud import database_node
-from proxmox_resource_distributor.database import DatabaseSession
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor.crud import database_node
+from virtualisation_resource_distributor.database import DatabaseSession
+from virtualisation_resource_distributor.schemas import (
     DatabaseNode,
     DatabaseNodeCreate,
     DatabaseZone,

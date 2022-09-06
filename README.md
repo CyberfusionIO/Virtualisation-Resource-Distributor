@@ -1,22 +1,18 @@
-# Wish
+# Virtualisation Resource Distributor
 
-* At Cyberfusion, we provide customers with services such as IMAP, POP, DNS and web hosting.
-* Services run on multiple resources. That way, an outage on a single resource doesn't impact availability of the service.
-* To ensure services stay available in case of physical component failure, resources belonging to the services should be spread over zones.
+Cyberfusion provides services such as IMAP, DNS and web hosting. These services run on multiple virtual machines. Therefore, services stay available when a virtual machine is out of service. Virtualisation Resource Distributor spreads virtual machines belonging to specific services over multiple zones.
 
-## Terminology
-
-* Resources: Virtual Machines and Containers.
+The hypervisor Proxmox VE is supported.
 
 # Solution
 
-Proxmox Resource Distributor expects three things to be done:
+Virtualisation Resource Distributor expects three things to be done:
 
-* Group Proxmox cluster nodes into zones. Zones are failure domains (e.g. a datacenter).
-* Group service resources into pools. E.g. in case of a DNS cluster consisting of Virtual Machines `dns0`, `dns1` and `dns2`, add these Virtual Machines to the pool `dns`. Pools may be named anything.
+* Group Proxmox VE cluster nodes into zones. Zones are failure domains (e.g. a datacenter).
+* Group service resources into pools. E.g. in case of a DNS cluster consisting of virtual machines `dns0`, `dns1` and `dns2`, add these virtual machines to the pool `dns`. Pools may be named anything.
 * Add zones and pools to database (more information below).
 
-Proxmox Resource Distributor makes sure resources in a pool run:
+Virtualisation Resource Distributor makes sure resources in a pool run:
 
 * On as many different nodes as possible.
 * In as many different zones as possible.
@@ -27,21 +23,21 @@ Proxmox Resource Distributor makes sure resources in a pool run:
 
 ## What it does
 
-When Proxmox Resource Distributor determines resources should be migrated, two things happen:
+When Virtualisation Resource Distributor determines resources should be migrated, two things happen:
 
 * The program exits with [status code 78](https://www.freebsd.org/cgi/man.cgi?query=sysexits).
 * The program outputs the names of pools with resources to migrate.
 
 ### Running in cron
 
-Running Proxmox Resource Distributor in cron yields the following results:
+Running Virtualisation Resource Distributor in cron yields the following results:
 
 * If no resources have to be migrated, nothing happens.
 * If resources have to be migrated, `cron` should send mail.
 
 ## What it does not do
 
-Proxmox Resource Distributor does not migrate resources automatically. Migrating resources automatically causes more problems than it solves. When running in cron, the administrator should monitor mail sent by `cron` and migrate resources manually.
+Virtualisation Resource Distributor does not migrate resources automatically. Migrating resources automatically causes more problems than it solves. When running in cron, the administrator should monitor mail sent by `cron` and migrate resources manually.
 
 # Usage
 
@@ -49,7 +45,7 @@ Proxmox Resource Distributor does not migrate resources automatically. Migrating
 
 Install the package from PyPI:
 
-    pip3 install proxmox-resource-distributor
+    pip3 install virtualisation-resource-distributor
 
 ## Configuration
 
@@ -57,7 +53,7 @@ Install the package from PyPI:
 
 Add the following settings to the `.env` file. This file is relative to your working directory.
 
-* `DATABASE_PATH`. Type: string. Default: `/var/lib/proxmox-resource-distributor.sqlite3`
+* `DATABASE_PATH`. Type: string. Default: `/var/lib/virtualisation-resource-distributor.sqlite3`
 * `PROXMOX_HOST`. Type: string. Default: `pve-test:8006`. If the port is omitted, it defaults to 8006. The port must be set to run the tests.
 * `PROXMOX_USERNAME`. Type: string. Default: `guest`
 * `PROXMOX_REALM`. Tyoe: string. Default: `pve`
@@ -68,7 +64,7 @@ These settings can be overridden by specifying them as environment variables.
 
 ### Secrets
 
-* Create the directory `/etc/proxmox-resource-distributor` with secure permissions.
+* Create the directory `/etc/virtualisation-resource-distributor` with secure permissions.
 * Create the file `proxmox_password` with secure permissions.
 * Place the password for the Proxmox user in it.
 
@@ -81,25 +77,25 @@ The Proxmox user specified in the configuration should have the following privil
 ## Create database
 
 * Create the file specified in `DATABASE_PATH` with secure permissions.
-* Copy `proxmox-resource-distributor.sqlite3` (can be found in the Git repository) to the path specified in `DATABASE_PATH`.
+* Copy `virtualisation-resource-distributor.sqlite3` (can be found in the Git repository) to the path specified in `DATABASE_PATH`.
 
 ## Manage zones and nodes
 
 Add zones with:
 
-    proxmox-resource-distributor create-node --name=<name> --zone-name=<zone-name>
+    virtualisation-resource-distributor create-zone --name=<name>
 
 Add nodes with:
 
-    proxmox-resource-distributor create-zone --name=<name>
+    virtualisation-resource-distributor create-node --name=<name> --zone-name=<zone-name>
 
 Delete nodes with:
 
-    proxmox-resource-distributor delete-node --name=<name>
+    virtualisation-resource-distributor delete-node --name=<name>
 
 Delete zones with:
 
-    proxmox-resource-distributor delete-zone --name=<name>
+    virtualisation-resource-distributor delete-zone --name=<name>
 
 # Tests
 

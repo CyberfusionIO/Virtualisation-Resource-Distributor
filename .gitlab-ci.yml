@@ -24,8 +24,8 @@ unit test:
   stage: test
   script:
     - pip install --no-cache-dir -r requirements/test.txt
-    - cp $CI_PROJECT_DIR/proxmox-resource-distributor.sqlite3 /tmp/proxmox-resource-distributor.sqlite3
-    - DATABASE_PATH=/tmp/proxmox-resource-distributor.sqlite3 pytest -vvv --cov-branch --cov=proxmox_resource_distributor --cov-config=.coveragerc --cov-fail-under=100 --junitxml=report-pytest.xml
+    - cp $CI_PROJECT_DIR/virtualisation-resource-distributor.sqlite3 /tmp/virtualisation-resource-distributor.sqlite3
+    - DATABASE_PATH=/tmp/virtualisation-resource-distributor.sqlite3 pytest -vvv --cov-branch --cov=virtualisation_resource_distributor --cov-config=.coveragerc --cov-fail-under=100 --junitxml=report-pytest.xml
   artifacts:
     reports:
       junit: report-*.xml

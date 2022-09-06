@@ -7,11 +7,14 @@ import requests_mock
 from proxmoxer import ProxmoxAPI
 from requests_mock.mocker import Mocker
 
-from proxmox_resource_distributor.config import settings
-from proxmox_resource_distributor.crud import database_node, database_zone
-from proxmox_resource_distributor.database import DatabaseSession
-from proxmox_resource_distributor.proxmox import API
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor.config import settings
+from virtualisation_resource_distributor.crud import (
+    database_node,
+    database_zone,
+)
+from virtualisation_resource_distributor.database import DatabaseSession
+from virtualisation_resource_distributor.proxmox import API
+from virtualisation_resource_distributor.schemas import (
     DatabaseNode,
     DatabaseNodeCreate,
     DatabaseZone,
@@ -25,7 +28,7 @@ from proxmox_resource_distributor.schemas import (
 def database() -> Generator[None, None, None]:
     """Create database and override database path in settings."""
     shutil.copyfile(
-        "proxmox-resource-distributor.sqlite3",
+        "virtualisation-resource-distributor.sqlite3",
         os.environ[
             "DATABASE_PATH"
         ],  # Must be run from project root, where source file is located

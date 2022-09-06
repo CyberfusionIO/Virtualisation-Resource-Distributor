@@ -2,9 +2,9 @@ from typing import List
 
 from proxmoxer import ProxmoxAPI
 
-from proxmox_resource_distributor.crud import proxmox_pool
-from proxmox_resource_distributor.database import DatabaseSession
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor.crud import proxmox_pool
+from virtualisation_resource_distributor.database import DatabaseSession
+from virtualisation_resource_distributor.schemas import (
     DatabaseZone,
     ProxmoxMember,
     ProxmoxPool,

@@ -9,7 +9,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     """Settings."""
 
-    DATABASE_PATH: str = "/var/lib/proxmox-resource-distributor.sqlite3"
+    DATABASE_PATH: str = "/var/lib/virtualisation-resource-distributor.sqlite3"
 
     PROXMOX_HOST: str = "pve-test:8006"
     PROXMOX_USERNAME: str = "guest"
@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
 settings = Settings(
     _secrets_dir=os.path.join(
-        os.path.sep, "etc", "proxmox-resource-distributor"
+        os.path.sep, "etc", "virtualisation-resource-distributor"
     )
 )
 

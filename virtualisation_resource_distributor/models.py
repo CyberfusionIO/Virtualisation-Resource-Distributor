@@ -4,7 +4,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.sql import func
 from sqlalchemy.types import TIMESTAMP
 
-from proxmox_resource_distributor.database import Base
+from virtualisation_resource_distributor.database import Base
 
 # Database
 

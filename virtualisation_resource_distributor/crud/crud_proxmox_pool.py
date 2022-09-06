@@ -5,13 +5,17 @@ from typing import List
 from proxmoxer import ProxmoxAPI
 from sqlalchemy.orm import Session
 
-from proxmox_resource_distributor import crud
-from proxmox_resource_distributor.crud.base_proxmox import CRUDBaseProxmox
-from proxmox_resource_distributor.models import ProxmoxPool as ProxmoxPoolOrm
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor import crud
+from virtualisation_resource_distributor.crud.base_proxmox import (
+    CRUDBaseProxmox,
+)
+from virtualisation_resource_distributor.models import (
+    ProxmoxPool as ProxmoxPoolOrm,
+)
+from virtualisation_resource_distributor.schemas import (
     DatabaseZone as DatabaseZoneSchema,
 )
-from proxmox_resource_distributor.schemas import (
+from virtualisation_resource_distributor.schemas import (
     ProxmoxPool as ProxmoxPoolSchema,
 )
 
