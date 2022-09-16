@@ -72,7 +72,7 @@ def test_proxmox_pool_get_has_members_to_migrate_false(
 ) -> None:
     # Used zones = 1
     # Unused zones = 2
-    # Amount of members = 1
+    # Amount of members = 2 (both are in the same zone, but only 1 is taken into account, as 1 is stopped)
     # = 0 zones to be used
 
     assert (

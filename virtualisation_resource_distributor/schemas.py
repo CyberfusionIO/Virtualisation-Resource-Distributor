@@ -1,8 +1,21 @@
 """Pydantic schemas."""
 
 from datetime import datetime
+from enum import Enum
 
 from pydantic import BaseModel
+
+
+class ProxmoxMemberStatusEnum(Enum):
+    """Known states.
+
+    See: https://forum.proxmox.com/threads/list-of-all-virtual-machine-statuses.33732/
+    """
+
+    RUNNING = "running"
+    STOPPED = "stopped"
+    PAUSED = "paused"
+
 
 # Database
 
@@ -59,6 +72,7 @@ class ProxmoxMember(BaseModel):
     name: str
     vm_id: int
     pool_name: str
+    status: ProxmoxMemberStatusEnum
 
 
 class ProxmoxPool(BaseModel):
