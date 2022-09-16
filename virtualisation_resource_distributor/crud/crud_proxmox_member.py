@@ -13,6 +13,7 @@ from virtualisation_resource_distributor.models import (
 from virtualisation_resource_distributor.schemas import (
     ProxmoxMember as ProxmoxMemberSchema,
 )
+from virtualisation_resource_distributor.schemas import ProxmoxMemberStatusEnum
 
 
 class CRUDProxmoxMember(
@@ -35,6 +36,7 @@ class CRUDProxmoxMember(
                     name=member["name"],
                     vm_id=member["vmid"],
                     pool_name=pool_name,
+                    status=ProxmoxMemberStatusEnum(member["status"]),
                 )
             )
 

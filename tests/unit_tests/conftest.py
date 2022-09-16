@@ -20,6 +20,7 @@ from virtualisation_resource_distributor.schemas import (
     DatabaseZone,
     DatabaseZoneCreate,
     ProxmoxMember,
+    ProxmoxMemberStatusEnum,
     ProxmoxPool,
 )
 
@@ -175,6 +176,7 @@ def proxmox_members(
         name="vm01.example.com",
         vm_id=100,
         pool_name=proxmox_pools[0].name,
+        status=ProxmoxMemberStatusEnum.RUNNING,
     )
     results.append(
         member,
@@ -207,6 +209,7 @@ def proxmox_members(
         name="vm02.example.com",
         vm_id=101,
         pool_name=proxmox_pools[0].name,
+        status=ProxmoxMemberStatusEnum.RUNNING,
     )
     results.append(
         member,
@@ -246,6 +249,7 @@ def proxmox_members(
         name="vm03.example.com",
         vm_id=102,
         pool_name=proxmox_pools[1].name,
+        status=ProxmoxMemberStatusEnum.RUNNING,
     )
     results.append(
         member,
@@ -266,6 +270,39 @@ def proxmox_members(
             "netout": 278348107239,
             "node": member.node_name,
             "status": "running",
+            "template": 0,
+            "type": "qemu",
+            "uptime": 4115150,
+            "vmid": member.vm_id,
+        }
+    )
+
+    member = ProxmoxMember(
+        node_name=database_nodes[1].name,
+        name="vm04.example.com",
+        vm_id=103,
+        pool_name=proxmox_pools[1].name,
+        status=ProxmoxMemberStatusEnum.STOPPED,
+    )
+    results.append(
+        member,
+    )
+    pool1_data.append(
+        {
+            "cpu": 0.0377830136013874,
+            "disk": 0,
+            "diskread": 562901818520,
+            "diskwrite": 891997212672,
+            "id": f"qemu/{member.vm_id}",
+            "maxcpu": 16,
+            "maxdisk": 37580963840,
+            "maxmem": 17179869184,
+            "mem": 14203925388,
+            "name": member.name,
+            "netin": 198024469241,
+            "netout": 278348107239,
+            "node": member.node_name,
+            "status": "stopped",
             "template": 0,
             "type": "qemu",
             "uptime": 4115150,

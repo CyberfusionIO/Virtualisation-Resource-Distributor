@@ -15,6 +15,7 @@ from virtualisation_resource_distributor.models import (
 from virtualisation_resource_distributor.schemas import (
     DatabaseZone as DatabaseZoneSchema,
 )
+from virtualisation_resource_distributor.schemas import ProxmoxMemberStatusEnum
 from virtualisation_resource_distributor.schemas import (
     ProxmoxPool as ProxmoxPoolSchema,
 )
@@ -74,7 +75,11 @@ class CRUDProxmoxPool(CRUDBaseProxmox[ProxmoxPoolOrm, ProxmoxPoolSchema]):
         name: str,
     ) -> bool:
         """Check if pool has members to migrate (members are not in as many different zones as possible)."""
-        members = crud.proxmox_member.get_by_pool(proxmox_connection, name)
+        members = [
+            m
+            for m in crud.proxmox_member.get_by_pool(proxmox_connection, name)
+            if m.status == ProxmoxMemberStatusEnum.RUNNING
+        ]
         used_zones = self.get_members_zones(
             database_session, proxmox_connection, name
         )
