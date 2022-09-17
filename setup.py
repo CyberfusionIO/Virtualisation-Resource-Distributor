@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="virtualisation-resource-distributor",
-    version="3.1.1",
+    version="3.1.2",
     description="Program to distribute Virtual Machines and Containers over Proxmox zones",
     long_description=long_description,
     long_description_content_type="text/markdown",
