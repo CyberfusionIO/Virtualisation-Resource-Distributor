@@ -13,6 +13,7 @@ class ProxmoxMemberStatusEnum(Enum):
     """
 
     RUNNING = "running"
+    PRELAUNCH = "prelaunch"
     STOPPED = "stopped"
     PAUSED = "paused"
 
