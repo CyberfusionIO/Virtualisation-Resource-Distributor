@@ -1,27 +1,19 @@
-image: python:3.9
+include:
+  - project: 'cyberfusion/gitlab-ci-includes'
+    ref: main
+    file:
+      - '/base.yml'
+      - '/pypi-packages.yml'
+      - '/python.yml'
 
 stages:
   - test
   - build
-  - deploy
-
-styling test:
-  stage: test
-  script:
-    - pip install --no-cache-dir -r requirements/dev.txt
-    # Also need pytest to prevent mypy 'Untyped decorator' errors about pytest decorators
-    - pip install --no-cache-dir -r requirements/test.txt
-    - mypy . --junit-xml report-mypy.xml
-    - flake8 . --tee --output-file flake8.txt; exit_code=$?; flake8_junit flake8.txt report-flake8.xml
-    - if [ $exit_code -ne 0 ]; then exit 1; fi;
-    - isort -c .
-    - black --check .
-  artifacts:
-    reports:
-      junit: report-*.xml
+  - publish
 
 unit test:
   stage: test
+  image: python:3.9
   script:
     - pip install --no-cache-dir -r requirements/test.txt
     - cp $CI_PROJECT_DIR/virtualisation-resource-distributor.sqlite3 /tmp/virtualisation-resource-distributor.sqlite3
@@ -29,23 +21,3 @@ unit test:
   artifacts:
     reports:
       junit: report-*.xml
-
-build:
-  stage: build
-  script:
-    - apt update
-    - python3 setup.py sdist
-  artifacts:
-    paths:
-      - dist/*
-    expire_in: 1 week
-
-live deploy:
-  stage: deploy
-  only:
-    - master
-  dependencies:
-    - build
-  script:
-    - pip3 install twine
-    - twine upload --non-interactive dist/*
