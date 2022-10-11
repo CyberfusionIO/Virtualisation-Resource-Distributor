@@ -99,6 +99,6 @@ Delete zones with:
 
 # Tests
 
-Unit tests are located in `tests/unit_tests`. Run them with pytest. The tests must be run from the project root.
+Tests are located in `tests`. Run them with pytest. The tests must be run from the project root.
 
 **The database (at `DATABASE_PATH`) is removed after the tests were run. Set it to a volatile file.**
