@@ -1,55 +1,26 @@
 # Virtualisation Resource Distributor
 
-Cyberfusion provides services such as IMAP, DNS and web hosting. These services run on multiple virtual machines. Therefore, services stay available when a virtual machine is out of service. Virtualisation Resource Distributor spreads virtual machines belonging to specific services over multiple zones.
+Virtualisation Resource Distributor ensures that virtual machines and resources in pools are spread as much as possible.
 
-The hypervisor Proxmox VE is supported.
-
-# Solution
-
-Virtualisation Resource Distributor expects three things to be done:
-
-* Group Proxmox VE cluster nodes into zones. Zones are failure domains (e.g. a datacenter).
-* Group service resources into pools. E.g. in case of a DNS cluster consisting of virtual machines `dns0`, `dns1` and `dns2`, add these virtual machines to the pool `dns`. Pools may be named anything.
-* Add zones and pools to database (more information below).
-
-Virtualisation Resource Distributor makes sure resources in a pool run:
+Spread as much as possible means:
 
 * On as many different nodes as possible.
 * In as many different zones as possible.
 
-... depending on the amount of nodes, resources and zones.
+## Supported hypervisors
 
-# What it does and does not do
+* Proxmox VE 7.x
+* Proxmox VE 6.x
 
-## What it does
-
-When Virtualisation Resource Distributor determines resources should be migrated, two things happen:
-
-* The program exits with [status code 78](https://www.freebsd.org/cgi/man.cgi?query=sysexits).
-* The program outputs the names of pools with resources to migrate.
-
-### Running in cron
-
-Running Virtualisation Resource Distributor in cron yields the following results:
-
-* If no resources have to be migrated, nothing happens.
-* If resources have to be migrated, `cron` should send mail.
-
-## What it does not do
-
-Virtualisation Resource Distributor does not migrate resources automatically. Migrating resources automatically causes more problems than it solves. When running in cron, the administrator should monitor mail sent by `cron` and migrate resources manually.
-
-# Usage
-
-## Install
+# Install
 
 Install the package from PyPI:
 
     pip3 install virtualisation-resource-distributor
 
-## Configuration
+# Configure
 
-### Environment
+## Environment
 
 Add the following settings to the `.env` file. This file is relative to your working directory.
 
@@ -62,13 +33,13 @@ Add the following settings to the `.env` file. This file is relative to your wor
 
 These settings can be overridden by specifying them as environment variables.
 
-### Secrets
+## Secrets
 
 * Create the directory `/etc/virtualisation-resource-distributor` with secure permissions.
 * Create the file `proxmox_password` with secure permissions.
 * Place the password for the Proxmox user in it.
 
-#### Permissions
+## Permissions
 
 The Proxmox user specified in the configuration should have the following privileges:
 
@@ -78,6 +49,8 @@ The Proxmox user specified in the configuration should have the following privil
 
 * Create the file specified in `DATABASE_PATH` with secure permissions.
 * Copy `virtualisation-resource-distributor.sqlite3` (can be found in the Git repository) to the path specified in `DATABASE_PATH`.
+
+# Usage
 
 ## Manage zones and nodes
 
@@ -97,8 +70,32 @@ Delete zones with:
 
     virtualisation-resource-distributor delete-zone --name=<name>
 
+## Run
+
+Check if virtual machines and resources in pools are spread as much as possible:
+
+```
+# Not spread as much as possible
+
+$ virtualisation-resource-distributor run
+Pool 'db.dmz.cyberfusion.cloud' has members to migrate
+$ echo $?
+78
+
+# Spread as much as possible
+
+$ virtualisation-resource-distributor run
+$ echo $?
+0
+```
+
 # Tests
 
-Unit tests are located in `tests/unit_tests`. Run them with pytest. The tests must be run from the project root.
+Run tests with pytest:
 
-**The database (at `DATABASE_PATH`) is removed after the tests were run. Set it to a volatile file.**
+    pytest tests/
+
+Note:
+
+- The tests must be run from the project root.
+- The database (at `DATABASE_PATH`) is removed after the tests were run. Set it to a volatile file.
