@@ -11,7 +11,7 @@ stages:
   - build
   - publish
 
-unit test:
+unit test and feature test:
   stage: test
   image: python:3.9
   script:
