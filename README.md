@@ -10,7 +10,6 @@ Spread as much as possible means:
 ## Supported hypervisors
 
 * Proxmox VE 7.x
-* Proxmox VE 6.x
 
 # Install
 
@@ -43,7 +42,7 @@ These settings can be overridden by specifying them as environment variables.
 
 The Proxmox user specified in the configuration should have the following privileges:
 
-* `Pool.Allocate` on path `/pool`
+* `Pool.Audit` on path `/pool`
 
 ## Create database
 
