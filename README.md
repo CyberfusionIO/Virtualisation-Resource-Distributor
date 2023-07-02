@@ -34,7 +34,7 @@ Add the following settings to the `.env` file. This file is relative to your wor
 * `DATABASE_PATH`. Type: string. Default: `/var/lib/virtualisation-resource-distributor.sqlite3`
 * `PROXMOX_HOST`. Type: string. Default: `pve-test:8006`. If the port is omitted, it defaults to 8006. The port must be set to run the tests.
 * `PROXMOX_USERNAME`. Type: string. Default: `guest`
-* `PROXMOX_REALM`. Tyoe: string. Default: `pve`
+* `PROXMOX_REALM`. Type: string. Default: `pve`
 * `PROXMOX_VERIFY_SSL`. Type: boolean. Default: `True`
 * `EXCLUDE_POOLS_NAMES`. Type: JSON (e.g. `'["pool1", "pool2"]'`). Default: empty list, all pools are included.
 
